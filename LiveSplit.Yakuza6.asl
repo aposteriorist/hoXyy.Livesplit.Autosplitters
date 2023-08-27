@@ -1,22 +1,58 @@
 // Yakuza 6 Load Remover by hoxi, contributions by Vojtas131
 // with help from rythin_songrequest
 // Autosplitter by PlayingLikeAss (aposteriorist on Github)
+state("Yakuza6", "Steam.7June21") // 6145049068135492681
+{
+	long FileTimer:  0x25CE288, 0xC78;
+	string50 Magic:  0x25D2AA8, 0x38, 0x18, 0x32;
+	byte EnemyCount: 0x25D7C80, 0xE00, 0x22;
+	byte Loading:    0x25F5280, 0x364;
+}
 
-// state("Yakuza6", "Steam")
-// {
-// 	long FileTimer: 0x25CE288, 0xC78;
-// 	string50 hact: 0x25D63E2;
-// 	byte EnemyCount: 0x25D7C80, 0xE00, 0x22;
-// 	byte Loading: 0x25F5280, 0x364;
-// 	string50 kiryuTitle: 0x3634F90, 0x10, 0xC2;
-// }
+state("Yakuza6", "Steam.25March21") // 5789032013699339210
+{
+	long FileTimer:  0x25C9F88, 0xC78;
+	string50 Magic:  0x25CE7B8, 0x38, 0x18, 0x32;
+	byte EnemyCount: 0x25D3980, 0xE00, 0x22;
+	byte Loading:    0x25F0FC0, 0x364;
+}
+
+state("Yakuza6", "M Store")
+{
+	long FileTimer:  0x27B9C98, 0xC78;
+	string50 Magic:  0x27BE4B0, 0x38, 0x18, 0x32;
+	byte EnemyCount: 0x27C36F0, 0xE00, 0x22;
+	byte Loading:    0x27E0CA0, 0x364;
+}
 
 state("Yakuza6", "GOG")
 {
-	long FileTimer: 0x282BA88, 0xC78;
+	long FileTimer:  0x282BA88, 0xC78;
+	string50 Magic:  0x28302A0, 0x38, 0x18, 0x32;
 	byte EnemyCount: 0x28354D0, 0xE00, 0x22;
-	string255 Magic: 0x28302A0, 0x38, 0x18, 0x32;
-	byte Loading: 0x2852B20, 0x364;
+	byte Loading:    0x2852B20, 0x364;
+}
+
+init
+{
+    switch(modules.First().ModuleMemorySize)
+    {
+        case 60669952:
+            version = "Steam.7June21";
+            break;
+        case 60653568:
+            version = "Steam.25March21";
+            break;
+        case 62541824:
+            version = "M Store";
+            break;
+        case 62947328:
+            version = "GOG";
+            break;
+        default:
+            print(modules.First().ModuleMemorySize.ToString());
+            break;
+    }
 }
 
 startup
