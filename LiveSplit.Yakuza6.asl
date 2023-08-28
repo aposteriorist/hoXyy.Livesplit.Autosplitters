@@ -70,7 +70,7 @@ init
             switch(memory.ReadValue<int>(modules.First().BaseAddress + 0x178))
             {
                 case 1621853032: // 24th May, 2021
-                    version = "Steam";
+                    // The default version is correct.
                     break;
                 case 1619792947: // 30th April, 2021
                     version = "Steam - Patch 3 (06 May)";
@@ -123,6 +123,9 @@ startup
 
     settings.Add("FIGHTS", true, "Fight Splits");
         settings.Add("btl01_010", true, "Nagumo 101", "FIGHTS");
+        settings.Add("btl01_015", true, "Ch.1: Thugs", "FIGHTS");
+        settings.Add("btl01_020", true, "Ch.1: Little Asia", "FIGHTS");
+        settings.Add("btl01_030", true, "Ch.1: Alley", "FIGHTS");
         settings.Add("btl01_040", true, "Ch.1: Ed", "FIGHTS");
         settings.Add("btl02_020", true, "Ch.2: Akiyama", "FIGHTS");
         settings.Add("btl03_010", true, "Ch.3: Nagumo", "FIGHTS");
@@ -132,7 +135,7 @@ startup
         settings.Add("btl04_030", true, "Ch.4: Tagashira & Yuta", "FIGHTS");
         settings.Add("btl04_040", true, "Ch.4: Masuzoe", "FIGHTS");
         settings.Add("btl05_030", true, "Ch.5: Someya", "FIGHTS");
-        settings.Add("btl06_010", true, "Ch.6: Theater Square", "FIGHTS");
+        settings.Add("btl06_010", true, "Ch.6: Jingweon Mafia", "FIGHTS");
         settings.Add("btl06_020", true, "Ch.6: Joon-gi Han", "FIGHTS");
         settings.Add("btl07_040", true, "Ch.7: Ed", "FIGHTS");
         settings.Add("btl08_020", true, "Ch.8: Someya", "FIGHTS");
@@ -164,7 +167,7 @@ startup
         "btl05_020", "btl07_030", "btl08_010", "btl09_010", "btl10_040", "btl11_010", "btl12_010", "btl12_060b", "btl13_020", "btl13_160"};
 
     settings.Add("MISC", false, "Other Splits");
-        settings.Add("advcln02_070", true, "Ch.5: After Clan Creator", "MISC");
+        settings.Add("advcln02_070", false, "Ch.5: After Clan Creator", "MISC");
 }
 
 start
@@ -187,7 +190,7 @@ start
 update
 {
     // Debug prints
-    // if (current.Magic != old.Magic) print(String.Format("{0} -> {1}", old.Magic ?? "NULL", current.Magic ?? "NULL"));
+    // if (current.Magic != old.Magic) print(String.Format("{0} -> {1} ({2})", old.Magic ?? "NULL", current.Magic ?? "NULL", current.FileTimer));
     // if (current.FileTimer < old.FileTimer) print(String.Format("{0}: {1}", current.Magic, current.FileTimer));
 }
 
