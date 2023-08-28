@@ -243,14 +243,14 @@ split
     // If we're now tracking a fight:
     if (vars.OngoingFight != "")
     {
-        // Check if the Magic string has changed, to protect against continues and loading a save mid-fight.
-        if (current.Magic != vars.OngoingFight)
+        // Check the absolute difference on IGT to protect against continues and loading a save mid-fight.
+        if (Math.Abs(current.FileTimer - old.FileTimer) > 1000)
         {
             vars.OngoingFight = "";
         }
 
         // If there were enemies and there are now no more enemies, we're done.
-        else if (current.EnemyCount == 0 && old.EnemyCount > 0 && current.Loading == 0)
+        else if (current.EnemyCount == 0 && old.EnemyCount > 0)
         {
             vars.Splits.Add(vars.OngoingFight);
             vars.OngoingFight = "";
