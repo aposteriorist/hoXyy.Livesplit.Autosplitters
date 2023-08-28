@@ -1,7 +1,8 @@
 // Yakuza 6 Load Remover by hoxi, contributions by Vojtas131
 // with help from rythin_songrequest
 // Autosplitter by PlayingLikeAss (aposteriorist on Github)
-state("Yakuza6", "Steam.7June21") // 6145049068135492681
+
+state("Yakuza6", "Steam")
 {
 	long FileTimer:  0x25CE288, 0xC78;
 	string50 Magic:  0x25D2AA8, 0x38, 0x18, 0x32;
@@ -9,7 +10,33 @@ state("Yakuza6", "Steam.7June21") // 6145049068135492681
 	byte Loading:    0x25F5280, 0x364;
 }
 
-state("Yakuza6", "Steam.25March21") // 5789032013699339210
+// Same pointers as the current patch, but it's useful for LiveSplit to tell you what patch you're on.
+state("Yakuza6", "Steam - Patch 3 (06 May)")
+{
+	long FileTimer:  0x25CE288, 0xC78;
+	string50 Magic:  0x25D2AA8, 0x38, 0x18, 0x32;
+	byte EnemyCount: 0x25D7C80, 0xE00, 0x22;
+	byte Loading: 0x25F5280, 0x364;
+}
+
+state("Yakuza6", "Steam - Patch 2 (21 April)")
+{
+	long FileTimer:  0x25CE208, 0xC78;
+	string50 Magic:  0x25D2A28, 0x38, 0x18, 0x32;
+	byte EnemyCount: 0x25D7BF0, 0xE00, 0x22;
+	byte Loading:    0x25F5240, 0x364;
+}
+
+// Same pointers as Patch 2, but it's useful for LiveSplit to tell you what patch you're on.
+state("Yakuza6", "Steam - Patch 1 (12 April)")
+{
+	long FileTimer:  0x25CE208, 0xC78;
+	string50 Magic:  0x25D2A28, 0x38, 0x18, 0x32;
+	byte EnemyCount: 0x25D7BF0, 0xE00, 0x22;
+	byte Loading:    0x25F5240, 0x364;
+}
+
+state("Yakuza6", "Steam - Launch Version")
 {
 	long FileTimer:  0x25C9F88, 0xC78;
 	string50 Magic:  0x25CE7B8, 0x38, 0x18, 0x32;
@@ -38,11 +65,30 @@ init
     switch(modules.First().ModuleMemorySize)
     {
         case 60669952:
-            version = "Steam.7June21";
+        	// Every Steam version is this memory size, aside from the launch version.
+        	// To counter this, we'll check the TimeDateStamp field in the COFF header (file creation date).
+        	switch(memory.ReadValue<int>(modules.First().BaseAddress + 0x178))
+        	{
+        		case 1621853032: // 24th May, 2021
+        			version = "Steam";
+        			break;
+        		case 1619792947: // 30th April, 2021
+        			version = "Steam - Patch 3 (06 May)";
+        			break;
+        		case 1618322824: // 13th April, 2021
+        			version = "Steam - Patch 2 (21 April)";
+        			break;
+        		case 1617782951: // 7th April, 2021
+        			version = "Steam - Patch 1 (12 April)";
+        			break;
+        		default:
+					print(memory.ReadValue<int>(modules.First().BaseAddress + 0x178).ToString());
+		        	break;
+        	}
             break;
         case 60653568:
-            version = "Steam.25March21";
-            break;
+        	version = "Steam - Launch Version";
+        	break;
         case 62541824:
             version = "M Store";
             break;
@@ -50,8 +96,8 @@ init
             version = "GOG";
             break;
         default:
-            print(modules.First().ModuleMemorySize.ToString());
-            break;
+        	print(modules.First().ModuleMemorySize.ToString());
+        	break;
     }
 }
 
