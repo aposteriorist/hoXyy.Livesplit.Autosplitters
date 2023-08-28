@@ -167,7 +167,13 @@ startup
         "btl05_020", "btl07_030", "btl08_010", "btl09_010", "btl10_040", "btl11_010", "btl12_010", "btl12_060b", "btl13_020", "btl13_160"};
 
     settings.Add("MISC", false, "Other Splits");
+        settings.Add("adv01_070", false, "Ch.1: Reaching Kamurocho", "MISC");
+        settings.Add("scn02_020", false, "Ch.2: Taxi to Tojo HQ", "MISC");
+        settings.Add("adv03_220", false, "Ch.3: Baby Segment", "MISC");
         settings.Add("advcln02_070", false, "Ch.5: After Clan Creator", "MISC");
+        settings.Add("adv12_152", false, "Ch.12: Poem Stones", "MISC");
+
+    vars.MiscList = new String[5] { "adv01_070", "scn02_020", "adv03_220", "advcln02_070", "" };
 }
 
 start
@@ -220,15 +226,8 @@ split
         // Is the current Magic string a checked setting?
         else if (current.Magic != null && settings.ContainsKey(current.Magic) && settings[current.Magic] && !vars.Splits.Contains(current.Magic))
         {
-            // Is it the cutscene after Clan Creator?
-            //  Note: If additional Misc. splits are added, a list will need to be made and checked against.
-            if (settings["MISC"] && current.Magic == "advcln02_070")
-            {
-                vars.Splits.Add(current.Magic);
-                return true;
-            }
-            // Is it a chapter title card?
-            else if (settings["CHAPTERS"] && current.Magic.StartsWith("title"))
+            // Is it a chapter title card? Or a miscellaneous split?
+            if (settings["CHAPTERS"] && current.Magic.StartsWith("title") || settings["MISC"] && Array.IndexOf(vars.MiscList, current.Magic) >= 0)
             {
                 vars.Splits.Add(current.Magic);
                 return true;
