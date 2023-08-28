@@ -16,7 +16,7 @@ state("Yakuza6", "Steam - Patch 3 (06 May)")
     long FileTimer:  0x25CE288, 0xC78;
     string50 Magic:  0x25D2AA8, 0x38, 0x18, 0x32;
     byte EnemyCount: 0x25D7C80, 0xE00, 0x22;
-    byte Loading: 0x25F5280, 0x364;
+    byte Loading:    0x25F5280, 0x364;
 }
 
 state("Yakuza6", "Steam - Patch 2 (21 April)")
@@ -171,9 +171,9 @@ startup
         settings.Add("scn02_020", false, "Ch.2: Taxi to Tojo HQ", "MISC");
         settings.Add("adv03_220", false, "Ch.3: Baby Segment", "MISC");
         settings.Add("advcln02_070", false, "Ch.5: After Clan Creator", "MISC");
-        settings.Add("adv12_152", false, "Ch.12: Poem Stones", "MISC");
+        settings.Add("adv12_160", false, "Ch.12: Yamano Dodai's Grave", "MISC");
 
-    vars.MiscList = new String[5] { "adv01_070", "scn02_020", "adv03_220", "advcln02_070", "" };
+    vars.MiscList = new String[5] { "adv01_070", "scn02_020", "adv03_220", "advcln02_070", "adv12_160" };
 }
 
 start
