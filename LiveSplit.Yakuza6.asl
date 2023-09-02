@@ -4,60 +4,67 @@
 
 state("Yakuza6", "Steam")
 {
-    long FileTimer:  0x25CE288, 0xC78;
-    string50 Magic:  0x25D2AA8, 0x38, 0x18, 0x32;
-    byte EnemyCount: 0x25D7C80, 0xE00, 0x22;
-    byte Loading:    0x25F5280, 0x364;
+    long FileTimer:   0x25CE288, 0xC78;
+    string50 Magic:   0x25D2AA8, 0x38, 0x18, 0x32;
+    byte EnemyCount1: 0x25D7C80, 0xE00, 0x22;
+    byte EnemyCount2: 0x25D7C80, 0xE00, 0xBC;
+    byte Loading:     0x25F5280, 0x364;
 }
 
 // Same pointers as the current patch, but it's useful for LiveSplit to tell you what patch you're on.
 state("Yakuza6", "Steam - Patch 3 (06 May)")
 {
-    long FileTimer:  0x25CE288, 0xC78;
-    string50 Magic:  0x25D2AA8, 0x38, 0x18, 0x32;
-    byte EnemyCount: 0x25D7C80, 0xE00, 0x22;
-    byte Loading:    0x25F5280, 0x364;
+    long FileTimer:   0x25CE288, 0xC78;
+    string50 Magic:   0x25D2AA8, 0x38, 0x18, 0x32;
+    byte EnemyCount1: 0x25D7C80, 0xE00, 0x22;
+    byte EnemyCount2: 0x25D7C80, 0xE00, 0xBC;
+    byte Loading:     0x25F5280, 0x364;
 }
 
 state("Yakuza6", "Steam - Patch 2 (21 April)")
 {
-    long FileTimer:  0x25CE208, 0xC78;
-    string50 Magic:  0x25D2A28, 0x38, 0x18, 0x32;
-    byte EnemyCount: 0x25D7BF0, 0xE00, 0x22;
-    byte Loading:    0x25F5240, 0x364;
+    long FileTimer:   0x25CE208, 0xC78;
+    string50 Magic:   0x25D2A28, 0x38, 0x18, 0x32;
+    byte EnemyCount1: 0x25D7BF0, 0xE00, 0x22;
+    byte EnemyCount2: 0x25D7BF0, 0xE00, 0xBC;
+    byte Loading:     0x25F5240, 0x364;
 }
 
 // Same pointers as Patch 2, but it's useful for LiveSplit to tell you what patch you're on.
 state("Yakuza6", "Steam - Patch 1 (12 April)")
 {
-    long FileTimer:  0x25CE208, 0xC78;
-    string50 Magic:  0x25D2A28, 0x38, 0x18, 0x32;
-    byte EnemyCount: 0x25D7BF0, 0xE00, 0x22;
-    byte Loading:    0x25F5240, 0x364;
+    long FileTimer:   0x25CE208, 0xC78;
+    string50 Magic:   0x25D2A28, 0x38, 0x18, 0x32;
+    byte EnemyCount1: 0x25D7BF0, 0xE00, 0x22;
+    byte EnemyCount2: 0x25D7BF0, 0xE00, 0xBC;
+    byte Loading:     0x25F5240, 0x364;
 }
 
 state("Yakuza6", "Steam - Launch Version")
 {
-    long FileTimer:  0x25C9F88, 0xC78;
-    string50 Magic:  0x25CE7B8, 0x38, 0x18, 0x32;
-    byte EnemyCount: 0x25D3980, 0xE00, 0x22;
-    byte Loading:    0x25F0FC0, 0x364;
+    long FileTimer:   0x25C9F88, 0xC78;
+    string50 Magic:   0x25CE7B8, 0x38, 0x18, 0x32;
+    byte EnemyCount1: 0x25D3980, 0xE00, 0x22;
+    byte EnemyCount2: 0x25D3980, 0xE00, 0xBC;
+    byte Loading:     0x25F0FC0, 0x364;
 }
 
 state("Yakuza6", "M Store")
 {
-    long FileTimer:  0x27B9C98, 0xC78;
-    string50 Magic:  0x27BE4B0, 0x38, 0x18, 0x32;
-    byte EnemyCount: 0x27C36F0, 0xE00, 0x22;
-    byte Loading:    0x27E0CA0, 0x364;
+    long FileTimer:   0x27B9C98, 0xC78;
+    string50 Magic:   0x27BE4B0, 0x38, 0x18, 0x32;
+    byte EnemyCount1: 0x27C36F0, 0xE00, 0x22;
+    byte EnemyCount2: 0x27C36F0, 0xE00, 0xBC;
+    byte Loading:     0x27E0CA0, 0x364;
 }
 
 state("Yakuza6", "GOG")
 {
-    long FileTimer:  0x282BA88, 0xC78;
-    string50 Magic:  0x28302A0, 0x38, 0x18, 0x32;
-    byte EnemyCount: 0x28354D0, 0xE00, 0x22;
-    byte Loading:    0x2852B20, 0x364;
+    long FileTimer:   0x282BA88, 0xC78;
+    string50 Magic:   0x28302A0, 0x38, 0x18, 0x32;
+    byte EnemyCount1: 0x28354D0, 0xE00, 0x22;
+    byte EnemyCount2: 0x28354D0, 0xE00, 0xBC;
+    byte Loading:     0x2852B20, 0x364;
 }
 
 init
@@ -256,7 +263,9 @@ split
         }
 
         // If there were enemies and there are now no more enemies, we're done.
-        else if (current.EnemyCount == 0 && old.EnemyCount > 0)
+        //  (We're checking two different pointers for agreement, because one of the two occasionally flickers wrongly to 0.
+        //   In hours of testing, I haven't seen both flicker to 0 simultaneously. The flicker is a rare phenomenon to begin with.)
+        else if (current.EnemyCount1 == 0 && current.EnemyCount2 == 0 && (old.EnemyCount1 > 0 || old.EnemyCount2 > 0))
         {
             vars.Splits.Add(vars.OngoingFight);
             vars.OngoingFight = "";
