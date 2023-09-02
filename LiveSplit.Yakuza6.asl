@@ -274,7 +274,7 @@ reset
     // We'll also check the Magic string to be unnecessarily thorough.
     //  Splash screens: "boot" -> null -> "title_logo" -> "title_tenth_anniv" (-> "qloc_logo") -> "real_yakuza_pad" -> "taikenban_c01_title"
 
-    return current.FileTimer < 1000 && current.Magic == "boot";
+    return current.FileTimer < 1000 && (current.Magic == "boot" || current.Magic == "title_logo");
 }
 
 onReset
