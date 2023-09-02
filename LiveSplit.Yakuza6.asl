@@ -183,22 +183,25 @@ start
 
        When a difficulty is selected and the autosave confirmation screen comes up, IGT resets to 0 and begins counting up.
         (IGT also resets twice throughout the boot splash screens, but those shouldn't false start because of the Magic string.)
+        NG+ sets itself to the IGT of the file, rather than 0. Either way, we'll check for abnormally large changes in IGT. */
 
-       We'll also check if IGT is below 1000, to prevent file loads from false-starting after sitting on the title screen too long.
-        (IGT counts above 5000 before the Start confirmation prompt is enabled, so this won't prevent autostart.) */
-
-    vars.StartPrompt |= current.Magic == "taikenban_c01_title" && old.Magic == "taikenban_c01_title"
-                     && old.FileTimer > current.FileTimer && current.FileTimer < 1000;
+    // On/off switches for being in the Start prompt for a new game.
+    vars.StartPrompt |= Math.Abs(current.FileTimer - old.FileTimer) > 1000; // Turn autostart on if we've had an IGT change.
+    vars.StartPrompt &= current.Magic == "taikenban_c01_title"; // Turn autostart off if we're not in the main menu on a given frame.
 
     // Loading occurs on the button press in the Start prompt, so we can use it to autostart.
-    return vars.StartPrompt && current.Loading == 1;
+    // We'll also check if IGT has stopped, which occurs during loads, in order to skip false starts.
+    //  (IGT doesn't stop early enough on file loads (refresh rate of 30) to cause false starts.)
+    return vars.StartPrompt && current.FileTimer == old.FileTimer && current.Loading == 1;
 }
 
 update
 {
     // Debug prints
     // if (current.Magic != old.Magic) print(String.Format("{0} -> {1} ({2})", old.Magic ?? "NULL", current.Magic ?? "NULL", current.FileTimer));
-    // if (current.FileTimer < old.FileTimer) print(String.Format("{0}: {1}", current.Magic, current.FileTimer));
+    // if (current.FileTimer == old.FileTimer) print(String.Format("{0} ({1}) IGT STOP", current.Magic, current.FileTimer));
+    // if (current.Loading == 1) print(String.Format("{0} -- {1} ({2}) LOAD", old.Magic ?? "NULL", current.Magic ?? "NULL", current.FileTimer));
+    // if(Math.Abs(current.FileTimer - old.FileTimer) > 1000) print("HERE");
 }
 
 split
