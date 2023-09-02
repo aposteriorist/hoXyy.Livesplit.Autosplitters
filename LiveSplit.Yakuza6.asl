@@ -106,6 +106,7 @@ startup
     vars.Splits = new HashSet<string>();
     vars.OngoingFight = "";
     vars.StartPrompt = false;
+    refreshRate = 30; // Required for autostart.
 
     settings.Add("CHAPTERS", false, "Chapter End Splits");
         settings.Add("title02", true, "Chapter 1: The Price of Freedom", "CHAPTERS");
@@ -161,19 +162,19 @@ startup
         settings.Add("btl12_010", true, "Ch.12: Onomichi", "SETPIECES");
         settings.Add("btl12_060b", true, "Ch.12: Shipyard", "SETPIECES");
         settings.Add("btl13_020", true, "Finale: Onomichi", "SETPIECES");
-        settings.Add("btl13_160", true, "Finale: Millennium Tower", "SETPIECES");
+        settings.Add("adv13_160", true, "Finale: Millennium Tower", "SETPIECES");
 
     vars.SetpieceList = new String[10] {
-        "btl05_020", "btl07_030", "btl08_010", "btl09_010", "btl10_040", "btl11_010", "btl12_010", "btl12_060b", "btl13_020", "btl13_160"};
+        "btl05_020", "btl07_030", "btl08_010", "btl09_010", "btl10_040", "btl11_010", "btl12_010", "btl12_060b", "btl13_020", "adv13_160"};
 
     settings.Add("MISC", false, "Other Splits");
         settings.Add("adv01_070", false, "Ch.1: Reaching Kamurocho", "MISC");
         settings.Add("scn02_020", false, "Ch.2: Taxi to Tojo HQ", "MISC");
-        settings.Add("adv03_220", false, "Ch.3: Baby Segment", "MISC");
+        settings.Add("scn03_030", false, "Ch.3: Dark Night of the Milk", "MISC");
         settings.Add("advcln02_070", false, "Ch.5: After Clan Creator", "MISC");
         settings.Add("adv12_160", false, "Ch.12: Yamano Dodai's Grave", "MISC");
 
-    vars.MiscList = new String[5] { "adv01_070", "scn02_020", "adv03_220", "advcln02_070", "adv12_160" };
+    vars.MiscList = new String[5] { "adv01_070", "scn02_020", "scn03_030", "advcln02_070", "adv12_160" };
 }
 
 start
