@@ -279,17 +279,6 @@ isLoading
     return current.Loading == 1;
 }
 
-reset
-{
-    // When returning to the main menu, IGT resets to 0. But Livesplit sometimes misses the 0, so we'll go low (1/3 sec.).
-    //  (IGT never resets during gameplay, but it does decrease when we load a save, so we don't want to simply compare old to current.)
-
-    // We'll also check the Magic string to be unnecessarily thorough.
-    //  Splash screens: "boot" -> null -> "title_logo" -> "title_tenth_anniv" (-> "qloc_logo") -> "real_yakuza_pad" -> "taikenban_c01_title"
-
-    return current.FileTimer < 1000 && (current.Magic == "boot" || current.Magic == "title_logo");
-}
-
 onReset
 {
     vars.Splits.Clear();
